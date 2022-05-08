@@ -3,6 +3,7 @@ import { FormEvent, useState } from "react";
 import { FeedbackType, feedbackTypes } from "..";
 import { api } from "../../../lib/api";
 import { CloseButton } from "../../CloseButton";
+import { Loading } from "../../Loading";
 import { ScreenshotButton } from "../ScreenshotButton";
 
 
@@ -21,6 +22,7 @@ export function FeedbackContentStep({
 
     const [screenshot, setScreenshot] = useState<string | null>(null);
     const [comment, setComment] = useState("");
+    const [isSendingFeedback, setIsSendingFeedback] = useState(false);
 
 
     const feedbackTypeInfo = feedbackTypes[feedbackType];
@@ -28,6 +30,8 @@ export function FeedbackContentStep({
 
     async function handleSubmitFeedback(event: FormEvent) {
         event.preventDefault();
+
+        setIsSendingFeedback(true);
         // console.log({
         //     screenshot,
         //     comment
@@ -37,6 +41,7 @@ export function FeedbackContentStep({
             comment,
             screenshot,
         });
+        setIsSendingFeedback(false);
         onFeedbackSent();
     }
 
@@ -86,7 +91,8 @@ export function FeedbackContentStep({
                         focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-brand-500 
                         transition-colors disabled:opacity-50 disabled:hover:bg-brand-500"
                     >
-                        Enviar feedback
+                        {isSendingFeedback ? <Loading /> : 'Enviar feedback'}
+
                     </button>
                 </footer>
             </form>
