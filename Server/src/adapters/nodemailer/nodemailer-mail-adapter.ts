@@ -10,7 +10,7 @@ const transport = nodemailer.createTransport({
 export class NodemailerMailAdapter implements MailAdapter {
   async sendMail({ subject, body }: SendMailData) {
     await transport.sendMail({
-      from: "cjsdiniz@outlook.com",
+      from: "Feedget <cjsdiniz@outlook.com>",
       to: "diniz.cgi@gmail.com",
       subject,
       html: body,
