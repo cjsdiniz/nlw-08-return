@@ -398,6 +398,7 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Env
+.env
 .env.local
 
 # dist
