@@ -399,3 +399,6 @@ FodyWeavers.xsd
 
 # Env
 .env.local
+
+# dist
+dist
