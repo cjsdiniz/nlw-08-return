@@ -1,52 +1,14 @@
-import { prisma } from "./prisma";
-import nodemailer from "nodemailer";
 import express from "express";
-
+import { routes } from "./routes";
+import cors from "cors";
 const app = express();
 
-// app.get("/users", (req, res) => {
-//   return res.send("Hi!");
-// });
-
-// app.post("/feedbacks", (req, res) => {
-//   return res.send("Feedback!");
-// });
+app.use(cors());
 app.use(express.json());
+app.use(routes);
 
-const transport = nodemailer.createTransport({
-  host: "smtp.mailtrap.io",
-  port: 2525,
-  auth: { user: "976e84d1d85eeb", pass: "057b8d5f25eb3e" },
-});
-
-app.post("/feedbacks", async (req, res) => {
-  const { type, comment, screenshot } = req.body;
-  // console.log(req.body);
-  const feedback = await prisma.feedback.create({
-    data: {
-      type,
-      comment,
-      screenshot,
-    },
-  });
-
-  await transport.sendMail({
-    from: "cjdiniz@gmail.com",
-    to: "diniz.cgi@gmail.com",
-    subject: "Test",
-    html: [
-      `<div>`,
-      `<p>Tipo : ${type}</p>`,
-      `<p>Comm : ${comment}</p>`,
-      `</div>`,
-    ].join("\n"),
-  });
-
-  return res.status(201).json({ data: feedback });
-});
-
-app.listen(3333, () => {
-  console.log("HTTP server running");
+app.listen(process.env.PORT || 3333, () => {
+  console.log("HTTP server running on ", process.env.PORT || 3333);
 });
 
 // SQLite
